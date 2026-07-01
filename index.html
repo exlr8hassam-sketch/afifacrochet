@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afifa's Crochet — Crochet Florist, Karachi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:  #1C3A2E;
+      --cream:   #FDF6EC;
+      --rose:    #E8B4B8;
+      --gold:    #F5C842;
+      --kraft:   #C4956A;
+      --blush:   #FAE8E0;
+      --muted:   #8C7B72;
+      --paper:   #FBF0E4;
+      --red:     #C0392B;
+      --sage:    #7A9E7E;
+      --ink:     #2A1F1A;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── PETAL PARTICLES ── */
+    .petals-canvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -40px;
+      font-size: 1.1rem;
+      opacity: 0;
+      animation: petalfall linear infinite;
+    }
+    @keyframes petalfall {
+      0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0.7; }
+      100% { transform: translateY(110vh) rotate(720deg) translateX(60px); opacity: 0; }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 6vw;
+      background: rgba(253,246,236,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(196,149,106,0.2);
+      transition: padding 0.3s;
+    }
+    nav.scrolled { padding: 12px 6vw; box-shadow: 0 2px 20px rgba(28,58,46,0.07); }
+
+    .nav-logo {
+      display: flex; flex-direction: column; line-height: 1;
+      text-decoration: none;
+    }
+    .logo-script {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.65rem; font-weight: 700;
+      color: var(--forest);
+    }
+    .logo-sub {
+      font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--kraft); margin-top: 1px;
+    }
+
+    .nav-links { display: flex; gap: 34px; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none; opacity: 0.65;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--forest); }
+
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-cart {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.76rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--cream); cursor: pointer;
+      background: var(--forest); border: none;
+      padding: 10px 20px; border-radius: 100px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cart:hover { background: var(--kraft); transform: translateY(-1px); }
+    .cart-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--gold); color: var(--ink);
+      font-size: 0.62rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 6vw 70px;
+      gap: 48px;
+      overflow: hidden;
+    }
+
+    /* big soft circle bg */
+    .hero::after {
+      content: '';
+      position: absolute; right: -180px; top: 50%; transform: translateY(-50%);
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, var(--blush) 0%, transparent 70%);
+      z-index: 0; pointer-events: none;
+    }
+
+    .hero-text { position: relative; z-index: 2; }
+
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blush); border-radius: 100px;
+      padding: 8px 18px; margin-bottom: 24px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em;
+      color: var(--kraft); border: 1px solid rgba(196,149,106,0.25);
+    }
+    .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--kraft); }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5.2rem);
+      font-weight: 300; line-height: 1.06; letter-spacing: -0.01em;
+      color: var(--forest); margin-bottom: 10px;
+    }
+    .hero-title strong {
+      font-weight: 700; display: block;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--kraft);
+      font-weight: 300;
+    }
+
+    .hero-script {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem; font-weight: 600;
+      color: var(--rose);
+      display: block; margin-bottom: 22px;
+      line-height: 1;
+    }
+
+    .hero-desc {
+      font-size: 0.9rem; line-height: 1.8; color: var(--muted);
+      max-width: 390px; margin-bottom: 36px;
+    }
+
+    .hero-ctas { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      padding: 14px 32px; border-radius: 100px;
+      background: var(--forest); color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      border: none; cursor: pointer; text-decoration: none; display: inline-block;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover { background: var(--kraft); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(196,149,106,0.35); }
+
+    .btn-outline {
+      padding: 13px 28px; border-radius: 100px;
+      background: transparent; color: var(--forest);
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      border: 2px solid rgba(28,58,46,0.25); cursor: pointer; text-decoration: none; display: inline-block;
+      transition: all 0.22s;
+    }
+    .btn-outline:hover { border-color: var(--forest); background: rgba(28,58,46,0.05); }
+
+    /* hero bouquet display */
+    .hero-visual {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      height: 530px;
+    }
+
+    .bouquet-main {
+      position: relative; width: 300px;
+    }
+    /* kraft paper wrap */
+    .paper-wrap {
+      position: relative;
+      background: linear-gradient(165deg, #E8CFA8 0%, #D4A96A 50%, #C4956A 100%);
+      width: 240px; height: 280px;
+      border-radius: 8px 8px 80px 80px / 8px 8px 120px 120px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(28,58,46,0.15), inset 0 2px 8px rgba(255,255,255,0.3);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 20px;
+    }
+    .paper-wrap::before {
+      content: '';
+      position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 120px solid transparent;
+      border-right: 120px solid transparent;
+      border-top: 30px solid #C4956A;
+    }
+    /* ribbon */
+    .paper-wrap::after {
+      content: '';
+      position: absolute; top: 50%; left: -10px; right: -10px; height: 24px;
+      background: var(--rose);
+      transform: translateY(-50%);
+      border-radius: 2px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .flowers-cluster {
+      font-size: 2.8rem;
+      display: flex; flex-wrap: wrap; gap: 4px; justify-content: center;
+      position: relative; z-index: 2;
+      width: 180px;
+    }
+
+    /* floating badges */
+    .float-badge {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 10px 16px;
+      box-shadow: 0 8px 28px rgba(28,58,46,0.12);
+      border: 1px solid rgba(196,149,106,0.2);
+    }
+    .fb-1 { top: 30px; right: -10px; }
+    .fb-2 { bottom: 50px; left: -20px; }
+    .fb-3 { top: 50%; right: -40px; transform: translateY(-50%); }
+
+    .badge-icon { font-size: 1.2rem; margin-bottom: 2px; }
+    .badge-val { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--forest); line-height: 1; }
+    .badge-lbl { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      background: var(--forest);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      position: relative; z-index: 1;
+    }
+    .stat-item {
+      padding: 32px 20px; text-align: center;
+      border-right: 1px solid rgba(253,246,236,0.1);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem; font-weight: 700; font-style: italic;
+      color: var(--gold); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(253,246,236,0.55); margin-top: 6px;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--kraft);
+      padding: 13px 0; overflow: hidden; white-space: nowrap;
+    }
+    .marquee-track { display: inline-flex; animation: marquee 26s linear infinite; }
+    .marquee-track span {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.25rem; font-weight: 600;
+      color: rgba(253,246,236,0.9); padding: 0 26px;
+    }
+    .marquee-track .sep { font-family: serif; opacity: 0.5; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ── FLOWER WALL ── */
+    .flower-wall {
+      padding: 88px 6vw;
+      background: var(--paper);
+      position: relative; overflow: hidden;
+    }
+    .flower-wall::before {
+      content: '🌸🌺🌼🌻🌷';
+      position: absolute; top: -20px; left: 0; right: 0;
+      font-size: 4rem; opacity: 0.04;
+      letter-spacing: 40px; text-align: center;
+      transform: rotate(-5deg);
+      pointer-events: none;
+    }
+
+    .fw-header { text-align: center; margin-bottom: 56px; }
+    .fw-eyebrow {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem; font-weight: 600; color: var(--rose);
+      margin-bottom: 8px;
+    }
+    .fw-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 3rem); font-weight: 600; color: var(--forest);
+    }
+    .fw-desc {
+      font-size: 0.88rem; color: var(--muted); margin-top: 12px;
+      max-width: 420px; margin-left: auto; margin-right: auto; line-height: 1.7;
+    }
+
+    /* the flower wall grid — mini pots like her actual post */
+    .fw-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+    .fw-pot {
+      background: var(--cream); border-radius: 18px;
+      padding: 22px 14px 18px;
+      text-align: center;
+      border: 1.5px solid rgba(196,149,106,0.15);
+      box-shadow: 0 4px 18px rgba(28,58,46,0.06);
+      transition: transform 0.28s, box-shadow 0.28s;
+      cursor: default;
+    }
+    .fw-pot:hover { transform: translateY(-8px) rotate(-2deg); box-shadow: 0 16px 40px rgba(28,58,46,0.12); }
+    .fw-flower { font-size: 2.2rem; margin-bottom: 8px; display: block; }
+    .fw-name { font-family: 'Lora', serif; font-size: 0.78rem; font-style: italic; color: var(--forest); }
+    .fw-price { font-size: 0.7rem; font-weight: 600; color: var(--kraft); margin-top: 4px; }
+
+    /* pot graphic */
+    .pot-graphic {
+      width: 36px; height: 28px; background: var(--kraft);
+      border-radius: 4px 4px 8px 8px;
+      margin: 6px auto 0;
+      position: relative; opacity: 0.6;
+    }
+    .pot-graphic::before {
+      content: ''; position: absolute; top: -6px; left: -4px; right: -4px; height: 8px;
+      background: #A0784A; border-radius: 4px;
+    }
+
+    /* ── SHOP ── */
+    #shop { padding: 88px 6vw; background: var(--cream); }
+
+    .section-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 44px; padding-bottom: 20px;
+      border-bottom: 1px solid rgba(196,149,106,0.2);
+    }
+    .section-eyebrow {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.3rem; font-weight: 600; color: var(--rose); margin-bottom: 4px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 600; color: var(--forest);
+    }
+    .section-link {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--kraft); text-decoration: none; margin-bottom: 4px;
+      border-bottom: 1px solid rgba(196,149,106,0.3); padding-bottom: 2px;
+    }
+    .section-link:hover { color: var(--forest); border-color: var(--forest); }
+
+    /* filter tabs */
+    .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+    .filter-tab {
+      padding: 9px 22px; border-radius: 100px;
+      font-size: 0.76rem; font-weight: 600;
+      border: 1.5px solid rgba(196,149,106,0.3); background: transparent;
+      color: var(--ink); cursor: pointer; transition: all 0.2s;
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--forest); color: var(--cream); border-color: var(--forest);
+      box-shadow: 0 4px 14px rgba(28,58,46,0.2);
+    }
+
+    /* product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 26px;
+    }
+
+    .product-card {
+      background: var(--paper); border-radius: 22px;
+      border: 1.5px solid rgba(196,149,106,0.15);
+      cursor: pointer; overflow: hidden;
+      transition: transform 0.28s, box-shadow 0.28s;
+      box-shadow: 0 4px 18px rgba(28,58,46,0.06);
+      position: relative;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(196,149,106,0.2); }
+
+    /* kraft paper texture strip at top */
+    .card-kraft {
+      height: 8px;
+      background: linear-gradient(90deg, var(--kraft), #D4A96A, var(--kraft));
+    }
+
+    .product-img {
+      width: 100%; height: 220px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4.5rem; position: relative; overflow: hidden;
+    }
+    .product-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 65% 25%, rgba(255,255,255,0.3) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .product-tag {
+      position: absolute; top: 18px; left: 14px;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 100px;
+      background: var(--cream); color: var(--kraft);
+      border: 1px solid rgba(196,149,106,0.3);
+    }
+    .product-tag.new { background: var(--rose); color: white; border-color: var(--rose); }
+
+    .product-info { padding: 18px 20px 20px; }
+    .product-cat {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 5px;
+    }
+    .product-name {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem; font-weight: 500; color: var(--forest);
+      margin-bottom: 12px; line-height: 1.35;
+    }
+    .product-footer { display: flex; justify-content: space-between; align-items: center; }
+    .product-price { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--kraft); }
+    .add-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--forest); color: white;
+      border: none; cursor: pointer; font-size: 1.15rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.18s;
+    }
+    .add-btn:hover { background: var(--rose); transform: scale(1.12) rotate(8deg); }
+
+    /* ── KRAFT QUOTE ── */
+    .quote-section {
+      padding: 80px 6vw;
+      background: var(--forest);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .quote-section::before {
+      content: '❝';
+      position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+      font-size: 16rem; font-family: Georgia, serif;
+      color: rgba(253,246,236,0.04); line-height: 1;
+      pointer-events: none;
+    }
+    .quote-tag {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem; font-weight: 600; color: var(--gold);
+      margin-bottom: 18px; display: block;
+    }
+    blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+      font-weight: 300; font-style: italic;
+      color: var(--cream); line-height: 1.4;
+      max-width: 680px; margin: 0 auto 20px;
+    }
+    blockquote strong { font-weight: 600; color: var(--gold); }
+    .quote-src {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(253,246,236,0.4);
+    }
+
+    /* ── GAJRA SECTION — a unique touch pulled from her highlights ── */
+    .gajra-section {
+      padding: 88px 6vw;
+      background: var(--blush);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .gajra-visual {
+      position: relative;
+      height: 360px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gajra-ring {
+      width: 260px; height: 260px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--blush));
+      border: 3px dashed rgba(196,149,106,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      box-shadow: 0 16px 48px rgba(196,149,106,0.2);
+      position: relative; z-index: 2;
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .gajra-petal {
+      position: absolute;
+      font-size: 1.4rem;
+      animation: orbit linear infinite;
+    }
+    @keyframes orbit {
+      from { transform: rotate(0deg) translateX(155px) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(155px) rotate(-360deg); }
+    }
+    .gp1 { animation-duration: 8s; top: 50%; left: 50%; margin: -12px; }
+    .gp2 { animation-duration: 8s; animation-delay: -2s; top: 50%; left: 50%; margin: -12px; }
+    .gp3 { animation-duration: 8s; animation-delay: -4s; top: 50%; left: 50%; margin: -12px; }
+    .gp4 { animation-duration: 8s; animation-delay: -6s; top: 50%; left: 50%; margin: -12px; }
+
+    .gajra-text {}
+    .gajra-eyebrow {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem; font-weight: 600; color: var(--kraft); margin-bottom: 12px;
+    }
+    .gajra-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 600; color: var(--forest);
+      line-height: 1.2; margin-bottom: 18px;
+    }
+    .gajra-desc {
+      font-size: 0.9rem; line-height: 1.8; color: var(--muted); margin-bottom: 28px;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonial-section { padding: 88px 6vw; background: var(--cream); }
+    .tgrid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 44px;
+    }
+    .tcard {
+      background: var(--paper); border-radius: 22px;
+      padding: 30px 26px;
+      border: 1.5px solid rgba(196,149,106,0.15);
+      transition: transform 0.25s;
+      position: relative;
+    }
+    .tcard:hover { transform: translateY(-5px); }
+    /* pressed flower corner accent */
+    .tcard::after {
+      content: attr(data-flower);
+      position: absolute; top: 14px; right: 16px;
+      font-size: 1.4rem; opacity: 0.5;
+    }
+    .tcard-stars { color: var(--kraft); letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 12px; }
+    .tcard-text {
+      font-family: 'Lora', serif;
+      font-size: 0.93rem; font-style: italic; line-height: 1.7;
+      color: var(--ink); margin-bottom: 18px;
+    }
+    .tcard-author { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .tcard-loc { font-size: 0.68rem; color: var(--sage); margin-top: 2px; }
+
+    /* ── INSTAGRAM GRID ── */
+    .insta-section { padding: 70px 6vw; background: var(--paper); }
+    .insta-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 8px; margin-top: 36px;
+    }
+    .insta-item {
+      aspect-ratio: 1; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem; cursor: pointer; overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(196,149,106,0.12);
+      transition: transform 0.25s;
+    }
+    .insta-item:hover { transform: scale(1.05); z-index: 2; }
+    .insta-item::after {
+      content: '✦'; position: absolute; inset: 0;
+      background: rgba(28,58,46,0.55);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: var(--gold);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .insta-item:hover::after { opacity: 1; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--forest); padding: 60px 6vw 28px; }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 52px; padding-bottom: 46px;
+      border-bottom: 1px solid rgba(253,246,236,0.1);
+      margin-bottom: 26px;
+    }
+    .footer-logo-wrap {}
+    .footer-script {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem; font-weight: 700; color: var(--cream); margin-bottom: 4px;
+    }
+    .footer-sub {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose);
+      margin-bottom: 14px;
+    }
+    .footer-desc {
+      font-size: 0.82rem; line-height: 1.7; color: rgba(253,246,236,0.45); max-width: 270px;
+    }
+    .footer-col-title {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a {
+      font-size: 0.84rem; color: rgba(253,246,236,0.5); text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.73rem; color: rgba(253,246,236,0.3);
+    }
+    .footer-rose { color: var(--rose); }
+
+    /* ── CART TOAST ── */
+    .cart-toast {
+      position: fixed; bottom: 30px; right: 30px; z-index: 300;
+      background: var(--forest); color: var(--cream);
+      padding: 14px 24px; font-size: 0.85rem; font-weight: 600;
+      border-left: 4px solid var(--gold); border-radius: 12px;
+      box-shadow: 0 10px 36px rgba(28,58,46,0.22);
+      transform: translateY(80px); opacity: 0;
+      transition: all 0.38s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+    }
+    .cart-toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; padding-top: 100px; min-height: auto; gap: 44px; }
+      .hero::after { display: none; }
+      .hero-visual { height: 320px; }
+      .bouquet-main { width: 220px; }
+      .paper-wrap { width: 180px; height: 200px; }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .fw-grid { grid-template-columns: repeat(3, 1fr); }
+      .gajra-section { grid-template-columns: 1fr; }
+      .gajra-visual { height: 260px; }
+      .tgrid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .insta-grid { grid-template-columns: repeat(3, 1fr); }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PETAL RAIN -->
+<div class="petals-canvas" id="petals"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <span class="logo-script">Afifa's Crochet</span>
+    <span class="logo-sub">Crochet Florist · Karachi</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#gajra">Gajras</a></li>
+    <li><a href="#insta">Follow</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cart" onclick="showToast('Opening cart...')">
+      🛒 Cart <span class="cart-dot" id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-chip">
+      <span class="chip-dot"></span>
+      Karachi · 300+ bouquets delivered
+    </div>
+    <h1 class="hero-title">
+      Flowers that<br>
+      <strong>never<br><em>wither.</em></strong>
+    </h1>
+    <span class="hero-script">crafted with love & yarn ✶</span>
+    <p class="hero-desc">Handmade crochet bouquets, gajras & flower gifts for every occasion. Each petal, crocheted by hand — so your flowers stay beautiful forever.</p>
+    <div class="hero-ctas">
+      <a href="#shop" class="btn-primary">🌹 Shop Bouquets</a>
+      <a href="#gajra" class="btn-outline">See Gajras →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="bouquet-main">
+      <div class="paper-wrap">
+        <div class="flowers-cluster">
+          🌹🌻🌷🌸🌼🌺🌹🌻🌸
+        </div>
+      </div>
+      <div class="float-badge fb-1">
+        <div class="badge-icon">🎀</div>
+        <div class="badge-val">300+</div>
+        <div class="badge-lbl">Orders done</div>
+      </div>
+      <div class="float-badge fb-2">
+        <div class="badge-icon">⭐</div>
+        <div class="badge-val">100%</div>
+        <div class="badge-lbl">Handmade</div>
+      </div>
+      <div class="float-badge fb-3">
+        <div class="badge-icon">📦</div>
+        <div class="badge-val">KHI</div>
+        <div class="badge-lbl">Based in Karachi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num" data-target="300">0</div>
+    <div class="stat-label">Bouquets Delivered</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="260">0</div>
+    <div class="stat-label">Posts Shared</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="3628">0</div>
+    <div class="stat-label">Instagram Followers</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Flowers That Last Forever</div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee">
+    <span>Crochet Bouquets</span><span class="sep"> 🌹 </span>
+    <span>Gajra Vibes</span><span class="sep"> 🌼 </span>
+    <span>Sunflower Baskets</span><span class="sep"> 🌻 </span>
+    <span>Gift Boxes</span><span class="sep"> 🎀 </span>
+    <span>Custom Orders</span><span class="sep"> 🌷 </span>
+    <span>Advance Payment Only</span><span class="sep"> 🌸 </span>
+    <span>Crochet Bouquets</span><span class="sep"> 🌹 </span>
+    <span>Gajra Vibes</span><span class="sep"> 🌼 </span>
+    <span>Sunflower Baskets</span><span class="sep"> 🌻 </span>
+    <span>Gift Boxes</span><span class="sep"> 🎀 </span>
+    <span>Custom Orders</span><span class="sep"> 🌷 </span>
+    <span>Advance Payment Only</span><span class="sep"> 🌸 </span>
+  </div>
+</div>
+
+<!-- FLOWER WALL -->
+<section class="flower-wall">
+  <div class="fw-header">
+    <div class="fw-eyebrow">the flower wall</div>
+    <h2 class="fw-title">Pick Your Bloom ✶</h2>
+    <p class="fw-desc">From roses to sunflowers, each mini bouquet is handcrafted with love. Choose your favorite — or let us make a custom arrangement.</p>
+  </div>
+  <div class="fw-grid">
+    <div class="fw-pot">
+      <span class="fw-flower">🌹</span>
+      <div class="fw-name">Red Rose</div>
+      <div class="fw-price">Rs. 350</div>
+      <div class="pot-graphic"></div>
+    </div>
+    <div class="fw-pot">
+      <span class="fw-flower">🌻</span>
+      <div class="fw-name">Sunflower</div>
+      <div class="fw-price">Rs. 380</div>
+      <div class="pot-graphic"></div>
+    </div>
+    <div class="fw-pot">
+      <span class="fw-flower">🌸</span>
+      <div class="fw-name">Cherry Blossom</div>
+      <div class="fw-price">Rs. 340</div>
+      <div class="pot-graphic"></div>
+    </div>
+    <div class="fw-pot">
+      <span class="fw-flower">🌷</span>
+      <div class="fw-name">Tulip</div>
+      <div class="fw-price">Rs. 360</div>
+      <div class="pot-graphic"></div>
+    </div>
+    <div class="fw-pot">
+      <span class="fw-flower">🌼</span>
+      <div class="fw-name">Daisy</div>
+      <div class="fw-price">Rs. 330</div>
+      <div class="pot-graphic"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">the bouquet shop</div>
+      <h2 class="section-title">Shop the Collection</h2>
+    </div>
+    <a href="#" class="section-link">View all →</a>
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all">All</button>
+    <button class="filter-tab" data-filter="bouquets">Bouquets</button>
+    <button class="filter-tab" data-filter="gajras">Gajras</button>
+    <button class="filter-tab" data-filter="gifts">Gift Boxes</button>
+  </div>
+  <div class="product-grid" id="product-grid"></div>
+</section>
+
+<!-- QUOTE SECTION -->
+<section class="quote-section">
+  <span class="quote-tag">alhumdulillah ✶</span>
+  <blockquote>"How lucky are we to be able to create things with our <strong>hands</strong> — and make someone's day beautiful."</blockquote>
+  <p class="quote-src">— Afifa, @afifas_crochet</p>
+</section>
+
+<!-- GAJRA SECTION -->
+<section class="gajra-section" id="gajra">
+  <div class="gajra-visual">
+    <div class="gajra-ring">💐</div>
+    <span class="gajra-petal gp1">🌸</span>
+    <span class="gajra-petal gp2">🌺</span>
+    <span class="gajra-petal gp3">🌼</span>
+    <span class="gajra-petal gp4">🌷</span>
+  </div>
+  <div class="gajra-text">
+    <div class="gajra-eyebrow">gajra vibes 🌸</div>
+    <h2 class="gajra-title">Crochet Gajras<br>for Every Occasion</h2>
+    <p class="gajra-desc">From mehndi nights to everyday hair styling — our handmade crochet gajras are soft, beautiful, and last forever. No wilting, no mess. Just blooms.</p>
+    <a href="#shop" class="btn-primary">Order a Gajra →</a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonial-section">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">customer love</div>
+      <h2 class="section-title">What They're Saying</h2>
+    </div>
+  </div>
+  <div class="tgrid">
+    <div class="tcard" data-flower="🌹">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">"The bouquet I ordered for my mum's birthday was absolutely gorgeous — she couldn't believe it was crochet. Looked just like real roses."</p>
+      <div class="tcard-author">Hira M.</div>
+      <div class="tcard-loc">📍 Karachi</div>
+    </div>
+    <div class="tcard" data-flower="🌻">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">"Ordered a sunflower bouquet wrapped in kraft paper and it came out SO beautiful. The packaging alone made me smile. 10/10 would recommend."</p>
+      <div class="tcard-author">Fatima R.</div>
+      <div class="tcard-loc">📍 Karachi</div>
+    </div>
+    <div class="tcard" data-flower="🌸">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">"The gajra I got for my sister's mehndi was the prettiest thing at the event. Everyone asked where we got it from!"</p>
+      <div class="tcard-author">Zainab K.</div>
+      <div class="tcard-loc">📍 Karachi</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="insta-section" id="insta">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">@afifas_crochet</div>
+      <h2 class="section-title">Follow for Flowers</h2>
+    </div>
+    <a href="https://instagram.com/afifas_crochet" class="section-link" target="_blank">Follow on Instagram →</a>
+  </div>
+  <div class="insta-grid">
+    <div class="insta-item" style="background:#FAE8E0;">🌹</div>
+    <div class="insta-item" style="background:#FBF0D4;">🌻</div>
+    <div class="insta-item" style="background:#E8F0E4;">🌷</div>
+    <div class="insta-item" style="background:#FAE8E0;">🌸</div>
+    <div class="insta-item" style="background:#FBF0D4;">🌼</div>
+    <div class="insta-item" style="background:#E8F0E4;">💐</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-script">Afifa's Crochet</div>
+      <div class="footer-sub">Crochet Florist · Karachi</div>
+      <p class="footer-desc">Handmade crochet bouquets, gajras & gift pieces — made with love, one stitch at a time. Because some flowers should last forever.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links">
+        <li><a href="#">Bouquets</a></li>
+        <li><a href="#">Gajras</a></li>
+        <li><a href="#">Gift Boxes</a></li>
+        <li><a href="#">Custom Orders</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Afifa's Crochet · Karachi, PK</span>
+    <span>made with <span class="footer-rose">🌹</span> & yarn</span>
+  </div>
+</footer>
+
+<div class="cart-toast" id="toast">Added to cart ✓</div>
+
+<script>
+  // Products
+  const products = [
+    { id:1, name:'Red Rose Kraft Bouquet',       cat:'bouquets', price:'Rs. 1,200', emoji:'🌹', bg:'#FAE8E0', tag:'Popular' },
+    { id:2, name:'Sunflower Bouquet',            cat:'bouquets', price:'Rs. 1,400', emoji:'🌻', bg:'#FBF0D4', tag:'' },
+    { id:3, name:'Mixed Flower Bouquet',         cat:'bouquets', price:'Rs. 1,600', emoji:'💐', bg:'#E8F0E4', tag:'New' },
+    { id:4, name:'Rose Gajra — Single',          cat:'gajras',   price:'Rs. 450',   emoji:'🌸', bg:'#FAE8E0', tag:'Popular' },
+    { id:5, name:'Sunflower Gajra Pair',         cat:'gajras',   price:'Rs. 750',   emoji:'🌼', bg:'#FBF0D4', tag:'' },
+    { id:6, name:'Eid Gift Box',                 cat:'gifts',    price:'Rs. 2,200', emoji:'🎀', bg:'#E8F0E4', tag:'New' },
+    { id:7, name:'Birthday Bouquet + Card',      cat:'gifts',    price:'Rs. 1,800', emoji:'🎂', bg:'#FAE8E0', tag:'' },
+    { id:8, name:'Mini Flower Pot Set',          cat:'gifts',    price:'Rs. 950',   emoji:'🪴', bg:'#FBF0D4', tag:'Popular' },
+  ];
+
+  let cartCount = 0;
+
+  function renderProducts(filter) {
+    const grid = document.getElementById('product-grid');
+    const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
+    grid.innerHTML = filtered.map(p => `
+      <div class="product-card">
+        <div class="card-kraft"></div>
+        <div class="product-img" style="background:${p.bg};">${p.emoji}
+          ${p.tag ? `<div class="product-tag ${p.tag==='New'?'new':''}">${p.tag}</div>` : ''}
+        </div>
+        <div class="product-info">
+          <div class="product-cat">${p.cat}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-footer">
+            <span class="product-price">${p.price}</span>
+            <button class="add-btn" onclick="addToCart(event,'${p.name}')">+</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function addToCart(e, name) {
+    e.stopPropagation();
+    cartCount++;
+    document.getElementById('cart-count').textContent = cartCount;
+    showToast(`🌹 "${name}" added to cart`);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  // Filter tabs
+  document.querySelectorAll('.filter-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts(btn.dataset.filter);
+    });
+  });
+
+  // Sticky nav
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Marquee duplicate
+  const track = document.getElementById('marquee');
+  track.innerHTML += track.innerHTML;
+
+  // Animated counters
+  const counters = document.querySelectorAll('.stat-num[data-target]');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = Math.ceil(target / 60);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current.toLocaleString() + (target > 1000 ? '' : '+');
+        if (current >= target) clearInterval(timer);
+      }, 28);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => obs.observe(c));
+
+  // Petal rain
+  const petalEmojis = ['🌸','🌺','🌷','🌼','🌹'];
+  const canvas = document.getElementById('petals');
+  for (let i = 0; i < 14; i++) {
+    const p = document.createElement('span');
+    p.className = 'petal';
+    p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+    p.style.cssText = `
+      left: ${Math.random() * 100}vw;
+      animation-duration: ${8 + Math.random() * 12}s;
+      animation-delay: ${-Math.random() * 14}s;
+      font-size: ${0.7 + Math.random() * 0.8}rem;
+    `;
+    canvas.appendChild(p);
+  }
+
+  renderProducts('all');
+</script>
+</body>
+</html>
